@@ -1,26 +1,124 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-hand: var(--font-hand);
+  --font-heading: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-postit: var(--postit);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 노트 저널 — 괘선 종이, 손글씨, 포스트잇 */
+:root {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, sans-serif;
+
+  --background: #fdfbf3;
+  --foreground: #2b2a26;
+
+  --card: #fffef8;
+  --card-foreground: #2b2a26;
+  --popover: #fffef8;
+  --popover-foreground: #2b2a26;
+
+  --primary: #1f3557;
+  --primary-foreground: #fdfbf3;
+
+  --secondary: #f1ebdb;
+  --secondary-foreground: #2b2a26;
+
+  --muted: #f2eee2;
+  --muted-foreground: #6b675c;
+
+  --accent: #f1ebdb;
+  --accent-foreground: #2b2a26;
+
+  --destructive: #b4432e;
+
+  --border: #ddd7c4;
+  --input: #ddd7c4;
+  --ring: #1f3557;
+
+  --radius: 0.5rem;
+
+  /* 괘선과 포스트잇 */
+  --rule: #e6e0cd;
+  --postit: #f7e6a4;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    background-color: var(--background);
+  }
+
+  body {
+    @apply text-foreground;
+    /* 괘선 종이 */
+    background-color: var(--background);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      var(--rule) 31px,
+      var(--rule) 32px
+    );
+    /* 한글 단어가 중간에서 잘리는 것을 막는다 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    /* 살짝 기울인 카드 때문에 가로 스크롤이 생기는 것을 막는다 */
+    overflow-x: clip;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 스크롤하면 살짝 떠오르는 정도의 움직임 */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 }
